@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+    <aside class="sidebar">
+        <a href="dashboard.html" class="sidebar-logo">
+            <img src="../images/logo-text.png" alt="MoneyMap logo">
+        </a>
+
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="active">Dashboard</a>
+            <a href="transactions.html">Transactions</a>
+            <a href="budgets.html">Budgets</a>
+            <a href="analytics.html">Analytics</a>
+            <a href="goals.html">Goals</a>
+            <a href="settings.html">Settings</a>
+        </nav>
+    </aside>
+
+    <main class="dashboard">
+        <header class="dashboard-header">
+            <form class="search-bar" role="search">
+                <input type="search" placeholder="Search transactions, categories...">
+            </form>
+
+            <div class="date-picker">
+                <label for="dashboard-date" class="visually-hidden"></label>
+                 <input
+                    type="date"
+                    id="dashboard-date"
+                    name="dashboard-date"
+                >
+            </div>
+
+            <div class="profile-area">
+                <button type="button" class="profile-button">
+
+                    <span class="profile-avatar" id="profile-avatar"></span>
+
+                    <span class="profile-name" id="profile-name"></span>
+
+                    <img
+                        src="../images/dashboard/user.svg"
+                        alt=""
+                        class="profile-arrow"
+                    >
+
+                </button>
+            </div>
+        </header>
+    </main>
+
+</body>
+</html>

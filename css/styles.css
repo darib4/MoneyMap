@@ -1,0 +1,153 @@
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+}
+
+header {
+    width: 100%;
+    background-color: white;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.logo img {
+    width: 140px;
+    height: auto;
+}
+
+.navbar {
+    display: flex;
+    max-width: 1400px;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 50px;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    list-style: none;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+}
+
+.nav-links a:hover {
+    color: hsl(160, 59%, 30%);
+}
+
+.hero {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 24px 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 60px;
+}
+
+.hero-label {
+    margin: 0 0 20px;
+    color: hsl(160, 59%, 30%);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 3px;
+}
+
+.hero h1 {
+    font-size: 3rem;
+}
+
+.hero span {
+    color: hsl(160, 59%, 30%);
+}
+
+.hero-actions {
+    display: flex;
+    gap: 16px;
+    margin-top: 30px;
+}
+
+.btn-register, 
+.btn-login {
+    padding: 12px 24px;
+    border-radius:6px;
+    font-weight:600;
+    text-decoration: none;
+    transition: 0.2s ease;
+}
+
+.btn-register {
+    background-color:  hsl(160, 59%, 30%);
+    color: white;
+}
+
+.btn-register:hover {
+    background-color:  hsl(160, 59%, 20%);
+    color: white;
+}
+
+.btn-login {
+    border: 1px solid hsl(150, 48%, 35%);
+    color: hsl(150, 48%, 35%);
+    background-color: white;
+}
+
+.btn-login:hover {
+    background-color: hsl(150, 48%, 95%);
+    border-color: hsl(150, 48%, 25%);
+    color: hsl(150, 48%, 25%);
+}
+
+.hero-content {
+    flex: 1;
+}
+
+.hero-image {
+    flex: 1;
+    margin: 0;
+}
+
+.hero-image img {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    display: block;
+}
+
+.features {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px 60px;
+
+    display: flex;
+    gap: 60px;
+}
+
+.feature {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.feature h3 {
+    margin: 10px 0 4px;
+}
+
+.feature p {
+    margin: 0;
+}
