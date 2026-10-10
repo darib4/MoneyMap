@@ -24,6 +24,14 @@
 
     <main class="dashboard">
         <header class="dashboard-header">
+            <div class="dashboard-greeting">
+                <h1>
+                    <span id="greeting"></span>
+                    <span id="user-first-name"></span>
+                </h1>
+                <p>Here's what's happening with your money today.</p>
+            </div>
+
             <form class="search-bar" role="search">
                 <input type="search" placeholder="Search transactions, categories...">
             </form>
@@ -37,8 +45,12 @@
                 >
             </div>
 
+            <a href="transactions.html" class="add-transaction-btn">
+                + Add transaction
+            </a>
+
             <div class="profile-area">
-                <button type="button" class="profile-button">
+                <button type="button" class="profile-button" id="profile-button">
 
                     <span class="profile-avatar" id="profile-avatar"></span>
 
@@ -49,11 +61,15 @@
                         alt=""
                         class="profile-arrow"
                     >
-
                 </button>
+
+                <div class="profile-menu" id="profile-menu">
+                    <button type="button" id="logout-button">Log out</button>
+                </div>
             </div>
         </header>
     </main>
-
+    
+    <script type="module" src="../scripts/dashboard.js"></script>
 </body>
 </html>

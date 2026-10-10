@@ -99,7 +99,21 @@ body {
 }
 
 .profile-area {
-    margin-left: auto;
+    position: relative;
+}
+
+.profile-menu {
+    display: none;
+    position: absolute;
+    margin-top: 8px;
+    background-color: white;
+    border: 1px solid hsl(216, 12%, 84%);
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.profile-menu.active {
+    display: block;
 }
 
 .profile-button {

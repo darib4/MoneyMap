@@ -12,7 +12,7 @@ togglePassword.addEventListener("click", function(){
         toggleIcon.src = "../assets/login-register/eye-closed.svg";
         togglePassword.setAttribute("aria-label", "Hide password");
     } else {
-        password.passwordInput.type = "password";
+        passwordInput.type = "password";
         toggleIcon.src = "../assets/login-register/eye.svg";
         togglePassword.setAttribute("aria-label", "Show password");
     }
@@ -23,7 +23,7 @@ loginForm.addEventListener("submit", async function(event){
 
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value;
-
+    
     const {data, error} = await supabase.auth.signInWithPassword({
         email:email,
         password: password
@@ -33,6 +33,9 @@ loginForm.addEventListener("submit", async function(event){
         alert("Invalid email or password!");
         return;
     }
+
+    console.log("5. Login successful");
+
 
     window.location.href="dashboard.html";
 });
