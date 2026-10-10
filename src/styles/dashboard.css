@@ -160,3 +160,13 @@ body {
     font-weight: 600;
 } 
 
+.summary-card {
+    padding: 11px 35px;
+    border: 1px solid hsl(216, 12%, 84%);
+    border-radius: 10px;
+    background-color: white;
+    color: hsl(215, 28%, 17%);
+    font-size: 14px;
+    outline: none;
+    
+}
