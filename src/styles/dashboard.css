@@ -98,6 +98,22 @@ body {
     outline: none;
 }
 
+.add-transaction-btn {
+    padding: 11px 14px;
+    border: 1px solid hsl(216, 12%, 84%);
+    border-radius: 10px;
+    background-color: white;
+    color: hsl(215, 28%, 17%);
+    font-size: 14px;
+    outline: none;
+    text-decoration: none;
+}
+
+.add-transaction-btn:focus {
+    border-color: hsl(160, 59%, 30%);
+    box-shadow: 0 0 0 3px hsla(160, 59%, 30%, 0.12);
+}
+
 .profile-area {
     position: relative;
 }
