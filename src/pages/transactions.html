@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transactions</title>
+    <link rel="stylesheet" href="../styles/dashboard.css">
+    <link rel="stylesheet" href="../styles/transactions.css">
+</head>
+<body>
+    <aside class="sidebar">
+        <a href="dashboard.html" class="sidebar-logo">
+            <img src="../assets/logo-text.png" alt="MoneyMap logo">
+        </a>
+
+        <nav class="sidebar-nav">
+            <a href="dashboard.html">
+                <img src="../assets/features/house.svg" alt="">
+                <span>Dashboard</span>
+            </a>
+            <a href="transactions.html" class="active">
+                <img src="../assets/features/list.svg" alt="">
+                <span>Transactions</span>
+            </a>
+            <a href="budgets.html">
+                <img src="../assets/features/wallet-cards.svg" alt="">
+                <span>Budgets</span>
+            </a>
+            <a href="analytics.html">
+                <img src="../assets/features/analytics.svg" alt="">
+                <span>Analytics</span>
+            </a>
+            <a href="goals.html">
+                <img src="../assets/features/goal.svg" alt="">
+                <span>Goals</span>
+            </a>
+            <a href="settings.html">
+                <img src="../assets/features/settings.svg" alt="">
+                <span>Settings</span>
+            </a>
+        </nav>
+    </aside>
+
+    <main class="dashboard">
+        <header class="dashboard-header">
+            <div class="dashboard-greeting">
+                <h1>Transactions</h1>
+                <p>Track and manage all your income and expenses.</p>
+            </div>
+
+            <form class="search-bar" role="search">
+                <input type="search" placeholder="Search transactions, categories...">
+            </form>
+
+            <div class="date-picker">
+                <label for="dashboard-date" class="visually-hidden"></label>
+                 <input
+                    type="date"
+                    id="dashboard-date"
+                    name="dashboard-date"
+                >
+            </div>
+
+            <a href="transactions.html" class="add-transaction-btn">
+                + Add transaction
+            </a>
+
+            <div class="profile-area">
+                <button type="button" class="profile-button" id="profile-button">
+
+                    <span class="profile-avatar" id="profile-avatar"></span>
+
+                    <span class="profile-name" id="profile-name"></span>
+
+                    <img
+                        src="../assets/dashboard/user.svg"
+                        alt=""
+                        class="profile-arrow"
+                    >
+                </button>
+
+                <div class="profile-menu" id="profile-menu">
+                    <button type="button" id="logout-button">Log out</button>
+                </div>
+            </div>
+        </header>
+
+        <section class="summary-cards">
+            <article class="summary-card">
+                <p class="summary-card-title">Total transactions</p>
+                <h2 id="total-transactions"></h2>
+            </article>
+
+            <article class="summary-card">
+                <p class="summary-card-title">Total Income</p>
+                <h2 id="total-income"></h2>
+            </article>
+
+            <article class="summary-card">
+                <p class="summary-card-title">Expenses</p>
+                <h2 id="total-expenses"></h2>
+            </article>
+
+            <article class="summary-card">
+                <p class="summary-card-title">This month</p>
+                <h2 id="monthly-balance"></h2>
+            </article>
+        </section>
+
+        <section class="transactions-section">
+            <div class="transactions-header">
+                <h2>All Transactions</h2>
+
+                <div class="transactions-filters">
+                    <select id="type-filter">
+                        <option value="">All Types</option>
+                        <option value="">Income</option>
+                        <option value="">Expense</option>
+                    </select>
+
+                    <select id="category-filter">
+                        <option value="">All Categories</option>
+                        <option value="groceries">Groceries</option>
+                        <option value="shopping">Shopping</option>
+                        <option value="transport">Transport</option>
+                        <option value="rent">Rent</option>
+                        <option value="dining">Dining Out</option>
+                        <option value="subscriptions">Subscriptions</option>
+                        <option value="health">Health & Fitness</option>
+                        <option value="utilities">Utilities</option>
+                        <option value="salary">Salary</option>
+                        <option value="freelance">Freelance</option>
+                        <option value="other">Other</option>
+                    </select>
+
+                    <select id="date-filter">
+                        <option value="all">All Time</option>
+                        <option value="month">This Month</option>
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="transactions-table-wrapper">
+                <table class="transactions-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="transactions-table-body"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
