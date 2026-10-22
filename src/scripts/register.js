@@ -7,7 +7,7 @@ const togglePassword = document.getElementById("toggle-password");
 const toggleIcon = togglePassword.querySelector("img");
 
 const confirmPasswordInput = document.getElementById("confirm-password");
-const toggleConfirmPassword = document.getElementById("toggle-password");
+const toggleConfirmPassword = document.getElementById("toggle-confirm-password");
 const toggleConfirmIcon = toggleConfirmPassword.querySelector("img");
 
 togglePassword.addEventListener("click", function(){
@@ -16,7 +16,7 @@ togglePassword.addEventListener("click", function(){
         toggleIcon.src = "../assets/login-register/eye-closed.svg";
         togglePassword.setAttribute("aria-label", "Hide password");
     } else {
-        password.passwordInput.type = "password";
+        passwordInput.type = "password";
         toggleIcon.src = "../assets/login-register/eye.svg";
         togglePassword.setAttribute("aria-label", "Show password");
     }
@@ -25,7 +25,7 @@ togglePassword.addEventListener("click", function(){
 toggleConfirmPassword.addEventListener("click", function() {
     if(confirmPasswordInput.type === "password") {
         confirmPasswordInput.type = "text";
-        toggleConfirmIcon.src = "../assets/login-register/eye-off.svg";
+        toggleConfirmIcon.src = "../assets/login-register/eye-closed.svg";
     } else {
         confirmPasswordInput.type = "password";
          toggleConfirmIcon.src = "../assets/login-register/eye.svg";
