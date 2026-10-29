@@ -1,0 +1,172 @@
+/*Repeated CSS styles are stored in styles.css to keep the code clean, reusable, and easier to maintain.*/
+
+.auth-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 80px;
+    padding: 40px;
+}
+
+.auth-intro {
+    flex: 1;
+    max-width: 500px;
+}
+
+.auth-intro img {
+    width: 100px;
+    height: auto;
+    padding: 0;
+    margin-bottom: 25px;
+}
+
+.auth-intro h1 {
+    margin: 0;
+    padding: 0;
+    max-width: 400px;
+    font-size: 42px;
+    line-height: 1.1;
+    color: hsl(160, 59%, 20%);
+}
+
+.auth-card h2 {
+    text-align: center;
+    color: hsl(160, 59%, 20%);
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 430px;
+    padding: 40px;
+    border-radius: 1rem;
+    background-color: #74C69D;
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background-color: white;
+}
+
+.input-wrapper:focus-within {
+    border-color: hsl(160, 59%, 30%);
+}
+
+.input-wrapper input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 14px;
+    font-size: 15px;
+}
+
+.input-icon {
+    width: 20px;
+    height: 20px;
+    margin-left: 14px;
+}
+
+.toggle-password {
+    border: none;
+    background-color: transparent;
+
+    padding: 12px;
+
+    cursor: pointer;
+}
+
+.toggle-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.btn-register-submit {
+    padding: 14px;
+
+    border: none;
+    border-radius: 8px;
+
+    background-color: hsl(160, 59%, 30%);
+    color: white;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.btn-register-submit:hover {
+    background-color: hsl(160, 59%, 22%);
+}
+
+.auth-screen {
+    min-height: 100vh;
+}
+
+.auth-header {
+    padding: 20px 32px;
+    background-color: white;
+    border-bottom: 1px solid #d1d5db;
+}
+
+.auth-header img {
+    display: block;
+    width: 140px;
+    height: auto;
+}
+
+.auth-page .input-wrapper input {
+    min-width: 0;
+    width: 100%;
+    border-radius: 8px;
+}
+
+.btn-register-submit:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+.toggle-password:focus-visible {
+    outline: 2px solid #0f4d3c;
+    outline-offset: 2px;
+    border-radius: 6px;
+}
+
+@media (max-width: 760px) {
+    .auth-page {
+        flex-direction: column;
+        gap: 32px;
+        padding: 24px 16px;
+    }
+
+    .auth-intro {
+        text-align: center;
+    }
+
+    .auth-intro h1 {
+        font-size: 32px;
+    }
+
+    .auth-card {
+        padding: 24px;
+    }
+}

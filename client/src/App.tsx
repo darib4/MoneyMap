@@ -5,22 +5,25 @@ import {
     Routes
 } from "react-router-dom";
 
-import Sidebar from "./components/Sidebar";
+import AppLayout from "./components/AppLayout";
+import ProtectedRoute from "./components/ProtectedRoute";
+import LoginPage from "./pages/LoginPage";
+import TransactionsPage from "./pages/TransactionsPage";
 import "./App.css";
 
 function App() {
     return (
         <BrowserRouter>
-            <div className="app-layout">
-                <Sidebar />
+            <Routes>
+                <Route
+                    path="/"
+                    element={<Navigate to="/transactions" replace />}
+                />
 
-                <main className="main-content">
-                    <Routes>
-                        <Route
-                            path="/"
-                            element={<Navigate to="/transactions" replace />}
-                        />
+                <Route path="/login" element={<LoginPage />} />
 
+                <Route element={<ProtectedRoute />}>
+                    <Route element={<AppLayout />}>
                         <Route
                             path="/dashboard"
                             element={<h1>Dashboard</h1>}
@@ -28,15 +31,7 @@ function App() {
 
                         <Route
                             path="/transactions"
-                            element={
-                                <section>
-                                    <h1>Transactions</h1>
-                                    <p>
-                                        Track and manage all your income
-                                        and expenses.
-                                    </p>
-                                </section>
-                            }
+                            element={<TransactionsPage />}
                         />
 
                         <Route
@@ -53,9 +48,9 @@ function App() {
                             path="/goals"
                             element={<h1>Goals</h1>}
                         />
-                    </Routes>
-                </main>
-            </div>
+                    </Route>
+                </Route>
+            </Routes>
         </BrowserRouter>
     );
 }
