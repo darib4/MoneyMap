@@ -1,6 +1,7 @@
 import {useState} from "react";
 import type { SubmitEvent } from "react";
 import {useNavigate} from "react-router-dom";
+import "../styles/add-transaction-form.css";
 
 type AddTransactionFormPage = {
     onSaved: () => void;

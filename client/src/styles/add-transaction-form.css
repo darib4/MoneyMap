@@ -1,0 +1,50 @@
+.transaction-form {
+    margin-top: 24px;
+    padding: 24px;
+    background-color: white;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+}
+
+.transaction-form h2 {
+    margin-top: 0;
+}
+
+.transaction-form fieldset {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+.transaction-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.transaction-form input,
+.transaction-form select,
+.transaction-form button {
+    width: 100%;
+    min-width: 0;
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font: inherit;
+}
+
+.transaction-form button {
+    align-self: end;
+    background-color: #0f4d3c;
+    color: white;
+    cursor: pointer;
+}
+
+.transaction-form fieldset:disabled {
+    opacity: 0.6;
+}
