@@ -66,10 +66,6 @@
   cursor: wait;
 }
 
-.form-error {
-  color: #b91c1c;
-}
-
 .transactions-table-wrapper {
     margin-top: 24px;
     overflow-x: auto;
