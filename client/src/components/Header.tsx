@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Sun, Moon, UserRound } from "lucide-react";
+import TransactionSearch from "./TransactionSearch";
 
 type ProfileResponse = {
     user: {
@@ -172,6 +173,8 @@ function Header() {
                     )}
                 </div>
             </div>
+
+            <TransactionSearch/>
 
             <div ref={accountRef} className="relative">
                 <button

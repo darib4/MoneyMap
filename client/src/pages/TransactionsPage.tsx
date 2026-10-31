@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
 import AddTransactionForm from "../components/AddTransactionForm";
 
 type Transaction = {
@@ -27,6 +27,9 @@ function TransactionsPage() {
     const [refreshKey, setRefreshKey] = useState(0);
 
     const navigate = useNavigate();
+
+    const [searchParams] = useSearchParams();
+    const searchQuery = (searchParams.get("q") ?? "").trim().toLowerCase();
 
     useEffect(() => {
         const controller = new AbortController();
@@ -72,6 +75,15 @@ function TransactionsPage() {
             controller.abort();
         };
     }, [navigate, refreshKey]);
+
+    const filteredTransactions = transactions.filter((transaction) => {
+        const description = transaction.description.toLowerCase();
+        const category = transaction.description.toLowerCase();
+
+        return (
+            description.includes(searchQuery) || category.includes(searchQuery)
+        );
+    });
 
     const totalIncomeCents = transactions.reduce(
     (total, transaction) =>
@@ -137,12 +149,14 @@ function TransactionsPage() {
             )}
 
             {!isLoading && !error && (
-                transactions.length === 0 ? (
-                    <p>No transactions yet.</p>
+                filteredTransactions.length === 0 ? (
+                    <p role="status">
+                        {transactions.length === 0 ? "No transactions yet.": "No transactions match your search."}
+                    </p>
                 ) : (
                     <div className="transactions-table-wrapper">
                         <table className="transactions-table">
-                            <caption>All transactions</caption>
+                            <caption>{searchQuery ? "Search results: " : "All transactions."}</caption>
 
                             <thead>
                                 <tr>
@@ -155,7 +169,7 @@ function TransactionsPage() {
                             </thead>
 
                             <tbody>
-                                {transactions.map((transaction) => (
+                                {filteredTransactions.map((transaction) => (
                                     <tr key={transaction.id}>
                                         <td>{transaction.date}</td>
                                         <td>{transaction.description}</td>
