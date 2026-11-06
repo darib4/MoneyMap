@@ -29,6 +29,8 @@
     background-color: #f3f6f5;
 }
 
+.transactions-table th:nth-last-child(2),
+.transactions-table td:nth-last-child(2),
 .transactions-table th:last-child,
 .transactions-table td:last-child {
     text-align: right;

@@ -154,4 +154,47 @@ router.post("/", async function(request, response){
     }
 });
 
+router.delete("/:id", async function(request, response) {
+    const idText = request.params.id;
+
+    if(typeof idText !== "string" || !/^[1-9]\d*$/.test(idText)) {
+        return response.status(400).json({
+            message: "Enter a valid transaction ID."
+        });
+    }
+
+    const transactionId = Number(idText);
+
+    if(!Number.isSafeInteger(transactionId) || transactionId > 2_147_483_647) {
+        return response.status(400).json({
+            message: "Enter a valid transaction ID."
+        });
+    }
+
+    try {
+        const result = await pool.query(
+            `DELETE FROM public.transactions
+            WHERE id = $1 AND user_id = $2`,
+            [transactionId, request.session.userId]
+        );
+
+        if(result.rowCount === 0) {
+            return response.status(404).json({
+                message: "Transaction not found."
+            });
+        }
+
+        return response.status(204).end();
+
+    } catch(error) {
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        console.error("Deleting transaction failed:", errorMessage);
+
+        return response.status(500).json({
+            message: "Could not delete transaction."
+        });
+    }
+
+});
+
 export default router;

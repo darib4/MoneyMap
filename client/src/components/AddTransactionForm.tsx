@@ -2,6 +2,7 @@ import {useState} from "react";
 import type { SubmitEvent } from "react";
 import {useNavigate} from "react-router-dom";
 import "../styles/add-transaction-form.css";
+import {toast} from "react-toastify";
 
 type AddTransactionFormPage = {
     onSaved: () => void;
@@ -78,6 +79,7 @@ function AddTransactionForm({onSaved}: AddTransactionFormPage) {
             }
 
             form.reset();
+            toast.success("Transaction added.")
             onSaved();
 
         } catch {
