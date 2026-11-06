@@ -216,53 +216,116 @@ function TransactionsPage() {
                         {transactions.length === 0 ? "No transactions yet.": "No matching transactions."}
                     </p>
                 ) : (
-                    <div className="transactions-table-wrapper">
-                        <table className="transactions-table">
-                            <caption>{searchQuery ? "Search results: " : "All transactions."}</caption>
+                    <div
+                        className="
+                            mt-6 overflow-x-auto rounded-xl
+                            border border-solid border-[#dce3e8]
+                            bg-white
+                        "
+                    >
+                        <table className="w-full min-w-[760px] border-collapse text-sm text-[#243b53]">
+                            <caption className="p-5 text-left text-xl font-bold text-[#17324d]">
+                                {searchQuery ? "Search results" : "All transactions"}
+                            </caption>
 
                             <thead>
-                                <tr>
-                                    <th scope="col">Date</th>
-                                    <th scope="col">Description</th>
-                                    <th scope="col">Category</th>
-                                    <th scope="col">Type</th>
-                                    <th scope="col">Amount</th>
-                                    <th scope="col">Actions</th>
+                                <tr
+                                    className="
+                                        border-0 border-b border-solid border-[#e5e7eb]
+                                        bg-[#f3f6f5] text-[#607286]
+                                    "
+                                >
+                                    <th scope="col" className="p-4 text-left font-semibold">
+                                        Date
+                                    </th>
+                                    <th scope="col" className="p-4 text-left font-semibold">
+                                        Description
+                                    </th>
+                                    <th scope="col" className="p-4 text-left font-semibold">
+                                        Category
+                                    </th>
+                                    <th scope="col" className="p-4 text-left font-semibold">
+                                        Type
+                                    </th>
+                                    <th scope="col" className="p-4 text-right font-semibold">
+                                        Amount
+                                    </th>
+                                    <th scope="col" className="p-4 text-right font-semibold">
+                                        Actions
+                                    </th>
                                 </tr>
                             </thead>
 
                             <tbody>
                                 {filteredTransactions.map((transaction) => (
-                                    <tr key={transaction.id}>
-                                        <td>{transaction.date}</td>
-                                        <td>{transaction.description}</td>
-                                        <td>{transaction.category}</td>
-                                        <td>
-                                            {transaction.type === "income" ? "Income" : "Expense"}
-                                        </td>
-                                        <td>
-                                            {transaction.type === "income"
-                                                ? "+"
-                                                : "-"}
-                                            {currencyFormatter.format(
-                                                transaction.amountCents / 100
-                                            )}
+                                    <tr
+                                        key={transaction.id}
+                                        className="
+                                            border-0 border-b border-solid border-[#e5e7eb]
+                                            transition-colors
+                                            last:border-b-0 hover:bg-[#f5faf7]
+                                        "
+                                    >
+                                        <td className="whitespace-nowrap p-4">
+                                            {transaction.date}
                                         </td>
 
-                                        <td>
+                                        <td className="p-4 [overflow-wrap:anywhere]">
+                                            {transaction.description}
+                                        </td>
+
+                                        <td className="p-4">
+                                            {transaction.category}
+                                        </td>
+
+                                        <td className="p-4">
+                                            <span
+                                                className={`
+                                                    inline-flex rounded-full px-3 py-1
+                                                    text-xs font-semibold
+                                                    ${
+                                                        transaction.type === "income"
+                                                            ? "bg-emerald-100 text-emerald-800"
+                                                            : "bg-red-100 text-red-800"
+                                                    }
+                                                `}
+                                            >
+                                                {transaction.type === "income"
+                                                    ? "Income"
+                                                    : "Expense"}
+                                            </span>
+                                        </td>
+
+                                        <td className="whitespace-nowrap p-4 text-right tabular-nums">
+                                            <span
+                                                className={
+                                                    transaction.type === "income"
+                                                        ? "font-semibold text-emerald-700"
+                                                        : "font-semibold text-red-700"
+                                                }
+                                            >
+                                                {transaction.type === "income" ? "+" : "-"}
+                                                {currencyFormatter.format(
+                                                    transaction.amountCents / 100
+                                                )}
+                                            </span>
+                                        </td>
+
+                                        <td className="p-4 text-right">
                                             <DeleteTransactionButton
                                                 transactionId={transaction.id}
                                                 description={transaction.description}
-                                                onDeleted={() => setRefreshKey((current) => current + 1)}
-                                                />
+                                                onDeleted={() =>
+                                                    setRefreshKey((current) => current + 1)
+                                                }
+                                            />
                                         </td>
-                                    </tr> 
+                                    </tr>
                                 ))}
                             </tbody>
                         </table>
                     </div>
                 )
-
             )}
         </section>
     );
