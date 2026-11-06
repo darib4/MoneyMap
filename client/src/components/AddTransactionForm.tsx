@@ -1,8 +1,14 @@
 import {useState} from "react";
 import type { SubmitEvent } from "react";
 import {useNavigate} from "react-router-dom";
-import "../styles/add-transaction-form.css";
 import {toast} from "react-toastify";
+
+const inputStyles =
+    "w-full min-w-0 rounded-lg border border-solid border-[#d1d5db] " +
+    "bg-white p-3 text-base font-normal text-[#1f2937] " +
+    "[font-family:inherit] " +
+    "focus-visible:outline-2 focus-visible:outline-offset-2 " +
+    "focus-visible:outline-[#0f4d3c]";
 
 type AddTransactionFormPage = {
     onSaved: () => void;
@@ -90,43 +96,72 @@ function AddTransactionForm({onSaved}: AddTransactionFormPage) {
     }
 
     return (
-        <form className="transaction-form" onSubmit={handleSubmit}>
-            <h2>Add transaction</h2>
+        <form 
+            onSubmit={handleSubmit}
+            className="
+                mt-6 rounded-[18px]
+                border border-solid border-[#dce3e8]
+                bg-white p-6
+                "
+            >
+            <h2 className="m-0 mb-5 text-xl font-bold text-[#17324d]">Add transaction</h2>
 
-            <fieldset disabled={isSubmitting}>
-                <label>
+            <fieldset 
+                disabled={isSubmitting}
+                className="
+                    m-0 grid min-w-0 grid-cols-1 gap-4
+                    border-0 p-0
+                    md:grid-cols-2 xl:grid-cols-3
+                    disabled:opacity-60
+                    "
+            >
+                <label className="flex min-w-0 flex-col gap-2 text-sm text-[#526477]">
                     Date
-                    <input name="date" type = "date" required />
+                    <input name="date" type = "date" className={inputStyles} required />
                 </label>
 
-                <label>
+                <label className="flex min-w-0 flex-col gap-2 text-sm text-[#526477]">
                     Description
-                    <input name="description" type = "description" required />
+                    <input name="description" type = "description" maxLength={255} className={inputStyles} required />
                 </label>
 
-                <label>
+                <label className="flex min-w-0 flex-col gap-2 text-sm text-[#526477]">
                     Category
-                    <input name="category" type = "category" required />
+                    <input name="category" type = "category" maxLength={50} className={inputStyles} required />
                 </label>
 
-                <label>
+                <label className="flex min-w-0 flex-col gap-2 text-sm text-[#526477]">
                     Type
-                    <select name="type" defaultValue="expense">
+                    <select name="type" defaultValue="expense" className={`${inputStyles} cursor-pointer`}>
                         <option value="expense">Expense</option>
                         <option value="income">Income</option>
                     </select>
                 </label>
 
-                <label>
+                <label className="flex min-w-0 flex-col gap-2 text-sm text-[#526477]">
                     Amount (€)
-                    <input name="amount" type = "amount" required />
+                    <input name="amount" type = "amount" inputMode="decimal" className={inputStyles} required />
                 </label>
 
-                <button type="submit">{isSubmitting ? "Saving" : "Add transaction"}</button>
+                <button 
+                    type="submit"
+                    className="
+                    cursor-pointer self-end rounded-lg
+                    border border-solid border-[#0f4d3c]
+                    bg-[#0f4d3c] px-4 py-3
+                    text-base font-semibold text-white
+                    [font-family:inherit]
+                    transition-colors hover:bg-[#0b3a2e]
+                    focus-visible:outline-2
+                    focus-visible:outline-offset-2
+                    focus-visible:outline-[#0f4d3c]
+                    disabled:cursor-wait
+                "
+                >{isSubmitting ? "Saving" : "Add transaction"}</button>
 
             </fieldset>
 
-            {error && (<p className="form-error" role="alert">{error}</p>)}
+            {error && (<p className="form-error mb-0 mt-4 text-sm" role="alert">{error}</p>)}
         </form>
     );
 }
