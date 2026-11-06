@@ -3,6 +3,7 @@ import {useNavigate, useSearchParams} from "react-router-dom";
 import AddTransactionForm from "../components/AddTransactionForm";
 import DeleteTransactionButton from "../components/DeleteTransactionButton";
 import {Plus} from "lucide-react";
+import SummaryCard  from "../components/SummaryCard";
 
 type Transaction = {
     id: number;
@@ -141,32 +142,34 @@ function TransactionsPage() {
             </div>
 
             {!isLoading && !error && (
-                <dl className="transaction-summary">
-                    <div className="summary-card">
-                        <dt>Total transactions</dt>
-                        <dd>{transactions.length}</dd>
-                    </div>
+                <dl className="
+                    my-7 grid grid-cols-1 gap-3
+                    min-[601px]:grid-cols-2
+                    min-[601px]:gap-5
+                    min-[1001px]:grid-cols-4
+                    ">
+                    
+                    <SummaryCard
+                        label="Total transactions"
+                        value={transactions.length}
+                    />
 
-                    <div className="summary-card summary-card-income">
-                        <dt>Total income</dt>
-                        <dd>
-                            {currencyFormatter.format(totalIncomeCents / 100)}
-                        </dd>
-                    </div>
+                    <SummaryCard
+                        label="Total income"
+                        value={currencyFormatter.format(totalIncomeCents / 100)}
+                        tone="income"
+                    />
 
-                    <div className="summary-card summary-card-expense">
-                        <dt>Total expenses</dt>
-                        <dd>
-                            {currencyFormatter.format(totalExpenseCents / 100)}
-                        </dd>
-                    </div>
+                    <SummaryCard
+                        label="Total expenses"
+                        value={currencyFormatter.format(totalExpenseCents / 100)}
+                        tone="expense"
+                    />
 
-                    <div className="summary-card">
-                        <dt>Net balance</dt>
-                        <dd>
-                            {currencyFormatter.format(balanceCents / 100)}
-                        </dd>
-                    </div>
+                    <SummaryCard
+                        label="Net balance"
+                        value={currencyFormatter.format(balanceCents / 100)}
+                    />
                 </dl>
             )}
             <details ref={addFormRef} className="group mt-6">
