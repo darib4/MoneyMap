@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { SubmitEvent } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Mail, LockKeyhole, Eye, EyeOff } from "lucide-react";
 
 const inputWrapperStyles =
@@ -131,6 +131,14 @@ function LoginPage() {
                     >
                         Log In
                     </h2>
+
+                    <p className="m-0 text-center text-sm text-[#1f2937]">Don't have an account?{" "}
+                        <Link
+                            to="/register"
+                            className="font-semibold text-[#0f4d3c] underline">
+                                Create an account
+                            </Link>
+                    </p>
 
                     <form
                         className="flex flex-col gap-5"
