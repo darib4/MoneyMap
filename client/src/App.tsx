@@ -10,6 +10,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import TransactionsPage from "./pages/TransactionsPage";
+import DashboardPage from "./pages/DashboardPage";
 
 function App() {
     return (
@@ -27,7 +28,7 @@ function App() {
                     <Route element={<AppLayout />}>
                         <Route
                             path="/dashboard"
-                            element={<h1>Dashboard</h1>}
+                            element={<DashboardPage/>}
                         />
 
                         <Route

@@ -124,11 +124,11 @@ function Header() {
     const isDaytime = hour >= 6 && hour < 18;
 
     const greeting =
-        hour < 12
+        !isDaytime ? "Good evening" : hour < 12
             ? "Good morning"
-            : hour < 18
-                ? "Good afternoon"
-                : "Good evening";
+            : hour < 12
+                ? "Good morning"
+                : "Good afternoon";
 
     return (
         <header

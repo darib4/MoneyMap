@@ -4,19 +4,10 @@ import AddTransactionForm from "../components/AddTransactionForm";
 import DeleteTransactionButton from "../components/DeleteTransactionButton";
 import {Plus} from "lucide-react";
 import SummaryCard  from "../components/SummaryCard";
-
-type Transaction = {
-    id: number;
-    date: string;
-    description: string;
-    category: string;
-    type: "income" | "expense";
-    amountCents: number;
-};
-
-type TransactionsResponse = {
-    transactions: Transaction[];
-};
+import type {
+    Transaction,
+    TransactionsResponse
+} from "../types/transaction-types"
 
 const currencyFormatter = new Intl.NumberFormat("en-IE", {
     style: "currency",
