@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Sun, Moon, UserRound } from "lucide-react";
 import TransactionSearch from "./TransactionSearch";
+import AddTransactionLink from "./AddTransactionLink";
 
 type ProfileResponse = {
     user: {
@@ -9,7 +10,11 @@ type ProfileResponse = {
     };
 };
 
-function Header() {
+type HeaderProps = {
+    onAddTransaction: () => void;
+};
+
+function Header({onAddTransaction}: HeaderProps) {
     const [firstName, setFirstName] = useState("");
     const [profileError, setProfileError] = useState("");
 
@@ -123,12 +128,11 @@ function Header() {
     const hour = new Date().getHours();
     const isDaytime = hour >= 6 && hour < 18;
 
-    const greeting =
-        !isDaytime ? "Good evening" : hour < 12
+    const greeting = !isDaytime
+        ? "Good evening"
+        : hour < 12
             ? "Good morning"
-            : hour < 12
-                ? "Good morning"
-                : "Good afternoon";
+            : "Good afternoon";
 
     return (
         <header
@@ -175,6 +179,8 @@ function Header() {
             </div>
 
             <TransactionSearch/>
+
+            <AddTransactionLink onClick={onAddTransaction}/>
 
             <div ref={accountRef} className="relative">
                 <button

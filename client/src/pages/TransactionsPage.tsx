@@ -1,8 +1,7 @@
-import {useEffect, useRef, useState} from "react";
-import {useNavigate, useSearchParams} from "react-router-dom";
-import AddTransactionForm from "../components/AddTransactionForm";
+import {useEffect, useState} from "react";
+import {useNavigate, useOutletContext, useSearchParams} from "react-router-dom";
+
 import DeleteTransactionButton from "../components/DeleteTransactionButton";
-import {Plus} from "lucide-react";
 import SummaryCard  from "../components/SummaryCard";
 import type {
     Transaction,
@@ -20,7 +19,7 @@ function TransactionsPage() {
     const [error, setError] = useState("");
     const [refreshKey, setRefreshKey] = useState(0);
     const [typeFilter, setTypeFilter] = useState("all");
-    const addFormRef = useRef<HTMLDetailsElement>(null);
+    const {transactionsVersion} = useOutletContext<{transactionsVersion: Number;}>();
 
     const navigate = useNavigate();
 
@@ -70,7 +69,7 @@ function TransactionsPage() {
         return () => {
             controller.abort();
         };
-    }, [navigate, refreshKey]);
+    }, [navigate, refreshKey, transactionsVersion]);
 
     const filteredTransactions = transactions.filter((transaction) => {
         const description = transaction.description.toLowerCase();
@@ -163,39 +162,6 @@ function TransactionsPage() {
                     />
                 </dl>
             )}
-            <details ref={addFormRef} className="group mt-6">
-                <summary 
-                    className="
-                        inline-flex cursor-pointer list-none items-center gap-2
-                        bg-[#0f4d3c] px-4 py-3
-                        text-sm font-semibold text-white
-                        transition-colors hover:bg-[#0b3a2e]
-                        focus-visible:outline-2
-                        focus-visible:outline-offset-2
-                        focus-visible:outline-[#0f4d3c]
-                        [&::-webkit-details-marker]:hidden
-                        "   
-                >
-                    <Plus
-                        aria-hidden="true"
-                        className="h-4 w-4 transition-transform group-open:rotate-45"
-                    />
-
-                    <span className="group-open:hidden">Add transaction</span>
-                    <span className="hidden group-open:inline">Close form</span>
-                </summary>
-
-                <AddTransactionForm
-                    onSaved={() => {
-                        setRefreshKey((current) => current + 1);
-
-                        if(addFormRef.current) {
-                            addFormRef.current.open = false;
-                            addFormRef.current.querySelector("summary")?.focus();
-                        }
-                    }}
-                />
-            </details>
 
             {isLoading && (
                 <p role="status">Loading transactions...</p>)}
