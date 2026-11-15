@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import {
     ArrowDown,
     ArrowUp,
@@ -43,6 +43,7 @@ function DashboardPage() {
     const [chartMonths, setChartMonths] = useState<3 | 6 | 12>(6);
 
     const navigate = useNavigate();
+    const {transactionsVersion} = useOutletContext<{transactionsVersion: number}>();
 
     useEffect(() => {
         const controller = new AbortController();
@@ -93,7 +94,7 @@ function DashboardPage() {
         return () => {
             controller.abort();
         };
-    }, [navigate, refreshKey]);
+    }, [navigate, refreshKey, transactionsVersion]);
 
     const availableMonths = getAvailableMonths(
         transactions,
