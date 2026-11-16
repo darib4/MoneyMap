@@ -3,6 +3,7 @@ import pool from "./db.js";
 import authRouter from "./routes/auth.js";
 import sessionMiddleware from "./session.js";
 import transactionsRouter from "./routes/transactions.js";
+import budgetsRouter from "./routes/budgets.js";
 
 const app = express();
 const PORT = 3000;
@@ -11,6 +12,7 @@ app.use(express.json({limit: "10kb" }));
 app.use(sessionMiddleware);
 app.use("/api/auth", authRouter);
 app.use("/api/transactions", transactionsRouter);
+app.use("/api/budgets", budgetsRouter);
 
 app.get("/api/health", function(request, response) {
     response.json({
