@@ -11,6 +11,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import TransactionsPage from "./pages/TransactionsPage";
 import DashboardPage from "./pages/DashboardPage";
+import BudgetsPage from "./pages/BudgetsPage";
 
 function App() {
     return (
@@ -38,7 +39,7 @@ function App() {
 
                         <Route
                             path="/budgets"
-                            element={<h1>Budgets</h1>}
+                            element={<BudgetsPage/>}
                         />
 
                         <Route
