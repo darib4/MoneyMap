@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 
 import DashboardMetricCard from "../components/DashboardMetricCard";
+import MonthlyBudgetCard from "../components/MonthlyBudgetCard";
 
 import type {
     Transaction,
@@ -329,57 +330,8 @@ function DashboardPage() {
                     </section>
 
                     <div className="grid gap-4 md:grid-cols-2">
-                        <section
-                            className="
-                                rounded-2xl border border-solid
-                                border-[#dce3e8] bg-white p-5 shadow-sm
-                            "
-                        >
-                            <h2
-                                className="
-                                    m-0 flex items-center gap-3
-                                    text-lg font-bold text-[#17324d]
-                                "
-                            >
-                                <Wallet
-                                    aria-hidden="true"
-                                    className="h-5 w-5 text-[#16734b]"
-                                />
-                                Monthly budget
-                            </h2>
-
-                            <p
-                                className="
-                                    mb-2 mt-5 font-semibold text-[#243b53]
-                                "
-                            >
-                                No monthly budget set.
-                            </p>
-
-                            <p
-                                className="
-                                    m-0 text-sm leading-relaxed
-                                    text-[#607286]
-                                "
-                            >
-                                Plan your spending by category.
-                            </p>
-
-                            <Link
-                                to="/budgets"
-                                className="
-                                    mt-5 inline-flex items-center gap-2
-                                    text-sm font-semibold text-[#0f4d3c]
-                                    no-underline hover:underline
-                                "
-                            >
-                                View budgets
-                                <ArrowRight
-                                    aria-hidden="true"
-                                    className="h-4 w-4"
-                                />
-                            </Link>
-                        </section>
+                        <MonthlyBudgetCard 
+                            month={selectedMonth === "all" ? currentMonth : selectedMonth}/>
 
                         <section
                             className="
