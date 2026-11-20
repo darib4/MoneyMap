@@ -2,6 +2,12 @@ import {useState} from "react";
 import type { SubmitEvent } from "react";
 import {useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
+import {
+    MONEY_INPUT_ERROR,
+    parseMoneyToCents
+} from "../utils/money";
+
+import Button from "./ui/Button";
 
 const inputStyles =
     "w-full min-w-0 rounded-lg border border-solid border-[#d1d5db] " +
@@ -34,25 +40,18 @@ function AddTransactionForm({onSaved}: AddTransactionFormPage) {
         const description = String(formData.get("description") ?? "").trim();
         const category = String(formData.get("category") ?? "").trim();
         const type = String(formData.get("type") ?? "").trim();
-        const amount = String(formData.get("amount") ?? "").trim().replace(",", ".");
+        const amount = String(formData.get("amount") ?? "");
 
         setError("");
 
-        if(!/^\d+(\.\d{1,2})?$/.test(amount)) {
-            setError("Enter an amount with up to two decimal places.");
+        const amountCents =parseMoneyToCents(amount);
+
+        if(amountCents === null){
+            setError(MONEY_INPUT_ERROR);
             return;
         }
 
-        const [whole, fraction = ""] = amount.split(".");
-
-        const amountCents = Number(whole) * 100 + Number(fraction.padEnd(2, "0"));
-
-        if(!Number.isSafeInteger(amountCents) || amountCents <=0 || amountCents > 2147483647) {
-            setError("Enter an amount between €0.01 and €21,474,836.47.");
-            return;
-        }
-
-        if(!description || !category){
+        if(!description || !category) {
             setError("Enter a description and a category.");
             return;
         }
@@ -143,21 +142,12 @@ function AddTransactionForm({onSaved}: AddTransactionFormPage) {
                     <input name="amount" type = "amount" inputMode="decimal" className={inputStyles} required />
                 </label>
 
-                <button 
+                <Button
                     type="submit"
-                    className="
-                    cursor-pointer self-end rounded-lg
-                    border border-solid border-[#0f4d3c]
-                    bg-[#0f4d3c] px-4 py-3
-                    text-base font-semibold text-white
-                    [font-family:inherit]
-                    transition-colors hover:bg-[#0b3a2e]
-                    focus-visible:outline-2
-                    focus-visible:outline-offset-2
-                    focus-visible:outline-[#0f4d3c]
-                    disabled:cursor-wait
-                "
-                >{isSubmitting ? "Saving" : "Add transaction"}</button>
+                    disabled ={isSubmitting}
+                    className="self-end">
+                        {isSubmitting ? "Saving..." : "Add transaction"}
+                    </Button>
 
             </fieldset>
 

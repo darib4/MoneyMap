@@ -7,15 +7,7 @@ export type CashFlowPoint = {
     expenses: number;
 };
 
-export const euroFormatter = new Intl.NumberFormat("en-IE", {
-    style: "currency",
-    currency: "EUR"
-});
-
-export function formatMoney(cents: number): string {
-    return euroFormatter.format(cents/100);
-}
-
+export { euroFormatter, formatMoney} from "./money";
 export function getMonthKey(date: Date): string {
     return  `${String(date.getFullYear()).padStart(4, "0")}-${String(
         date.getMonth() + 1

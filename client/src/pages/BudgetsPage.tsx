@@ -4,16 +4,12 @@ import { Wallet} from "lucide-react";
 import AddBudgetForm from "../components/AddBudgetForm";
 import DeleteBudgetButton from "../components/DeleteBudgetButton";
 import EditBudgetButton from "../components/EditBudgetButton";
+import BudgetProgress from "../components/BudgetProgress";
 
 import type {
     Budget,
     BudgetsResponse
 } from "../types/budgets-type";
-
-const currencyFormatter = new Intl.NumberFormat("en-IE", {
-    style: "currency",
-    currency: "EUR"
-});
 
 function BudgetsPage() {
     const [budgets, setBudgets] = useState<Budget[]>([]);
@@ -30,7 +26,7 @@ function BudgetsPage() {
     });
 
     const {transactionsVersion} = useOutletContext<{
-        transactionsVersion: Number;
+        transactionsVersion: number;
     }>();
 
     const navigate = useNavigate();
@@ -39,7 +35,7 @@ function BudgetsPage() {
         const controller = new AbortController();
 
         async function loadBudgets() {
-            setIsLoading(true),
+            setIsLoading(true);
             setError("");
 
             try{
@@ -184,12 +180,7 @@ function BudgetsPage() {
                             md:grid-cols-2 xl:grid-cols-3"
                     >
                         {budgets.map((budget) => {
-                            const remainingCents = budget.limitCents - budget.spentCents;
-                            const percentage = Math.round(
-                                (budget.spentCents / budget.limitCents) * 100
-                            );
-
-                            const isOverBudget = remainingCents < 0;
+                            
 
                             return(
                                 <article
@@ -225,67 +216,14 @@ function BudgetsPage() {
                                                 </h2>
                                         </div>
 
-                                        <p
-                                            className="
-                                                mb-0 mt-6 text-[#607286]
-                                                tabular-nums
-                                                [overflow-wrap:anywhere]"
-                                            >
-                                                <span
-                                                    className="
-                                                        text-xl font-bold
-                                                        text-[#17324d]"
-                                                    >
-                                                        {currencyFormatter.format(budget.spentCents / 100)}
-                                                    </span>
-                                                    {" of "}
-                                                    {currencyFormatter.format(budget.limitCents / 100)}
-                                                    {" used "}
-                                            </p>
+                                        <BudgetProgress
+                                            limitCents={budget.limitCents}
+                                            spentCents={budget.spentCents}
+                                            label={`${budget.category} budget usage`}
+                                            className="mt-6"
+                                        />
 
-                                            <progress
-                                                max={budget.limitCents}
-                                                value={Math.min(budget.spentCents, budget.limitCents)}
-                                                aria-label={`${budget.category} budget usage`}
-                                                className={`
-                                                    mt-4 block h-3 w-full
-                                                    appearance-none overflow-hidden
-                                                    rounded-full border-0
-                                                    bg-[#e5eee9]
-                                                    [&::-webkit-progress-bar]:bg-[#e5eee9]
-                                                    ${isOverBudget
-                                                        ? "[&::-webkit-progress-value]:bg-red-600 [&::-moz-preogress-bar]:bg-red-600"
-                                                        : "[&::-webkit-progress-value]:bg-emerald-700 [&::-moz-progress-bar]:bg-emerald-700"
-                                                    }`}
-                                            />
-
-                                            <div
-                                                className="
-                                                    mt-3 flex flex-wrap
-                                                    justify-between gap-2
-                                                    text-sm tabular-nums"
-                                            >
-                                                <p
-                                                    className={`m-0 ${
-                                                        isOverBudget
-                                                        ? "font-semibold text-red-700"
-                                                        : "text-[#607286]"
-                                                    }`}>
-                                                        {isOverBudget
-                                                            ? "Over budget by "
-                                                            : "Remaining "}
-                                                        {currencyFormatter.format(Math.abs(remainingCents) / 100)}
-                                                    </p>
-
-                                                    <p
-                                                        className={`m-0  font-semibold ${
-                                                            isOverBudget
-                                                            ? "text-red-700"
-                                                            : "text-[#16734b]"
-                                                    }`}>
-                                                        {percentage}% used
-                                                    </p>
-                                            </div>
+                     
 
                                             <div className="mt-5 flex flex-wrap items-end justify-end gap-2">
                                                 <EditBudgetButton

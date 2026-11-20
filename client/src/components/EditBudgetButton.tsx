@@ -3,6 +3,12 @@ import type { SubmitEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import {Pencil} from "lucide-react";
 import {toast} from "react-toastify";
+import {
+    MONEY_INPUT_ERROR,
+    parseMoneyToCents
+} from "../utils/money";
+
+import Button from "./ui/Button";
 
 type EditBudgetButtonProps = {
     budgetId: number;
@@ -41,21 +47,13 @@ function EditBudgetButton({
 
         setError("");
 
-        const cleanAmount = amount.trim().replace(",", ".");
+        const updateLimitCents = parseMoneyToCents(amount);
 
-        if(!/^\d+(\.\d{1,2})?$/.test(cleanAmount)) {
-            setError("Enter an amount with up to two decimal places.");
+        if(updateLimitCents === null){
+            setError(MONEY_INPUT_ERROR);
             return;
         }
 
-        const [whole, fraction = ""] = cleanAmount.split(".");
-
-        const updateLimitCents = Number(whole) * 100 + Number(fraction.padEnd(2, "0"));
-
-        if(!Number.isSafeInteger(updateLimitCents) || updateLimitCents <= 0 || updateLimitCents > 2147483647) {
-            setError("Enter a limit between €0.01 and €21,474,836.47.");
-            return;
-        }
         setIsSubmitting(true);
 
         try{
@@ -64,7 +62,7 @@ function EditBudgetButton({
                 {
                     method: "PATCH",
                     headers: {
-                        "Content-Type": "applications/json"
+                        "Content-Type": "application/json"
                     },
                     credentials: "include",
                     body: JSON.stringify({
@@ -100,24 +98,15 @@ function EditBudgetButton({
     }
     if(!isEditing) {
         return(
-            <button
-                type="button"
+            <Button
+                variant="secondary"
+                size="sm"
                 onClick={openEditor}
                 aria-label={`Edit ${category} budget limit.`}
-                className="
-                    inline-flex cursor-pointer items-center gap-2
-                    rounded-lg border border-solid border-[#0f4d3c]
-                    bg-white px-3 py-2 text-sm font-semibold
-                    text-[#0f4d3c] [font-family:inherit]
-                    transition-colors
-                    hover:bg-[#0f4d3c] hover:text-white
-                    focus-visible:outline-2
-                    focus-visible:outline-offset-2
-                    focus-visible:outline-[#0f4d3c]"
-                >
-                    <Pencil aria-hidden="true" className="h-4 w-4"/>
-                    Edit
-                </button>
+            >
+                <Pencil aria-hidden="true" className="h-4 w-4"/>
+                Edit
+            </Button>
         );
     }
 
@@ -163,44 +152,26 @@ function EditBudgetButton({
                     />
                 </label>
 
-                <button
-                    type="submit"
-                    className="
-                        cursor-pointer rounded-lg border-0
-                        bg-[#0f4d3c] px-3 py-2
-                        text-sm font-semibold text-white
-                        [font-family:inherit]
-                        hover:bg-[#16734b]
-                        focus-visible:outline-2
-                        focus-visible:outline-offset-2
-                        focus-visible:outline-[#0f4d3c]
-                        disabled:cursor-wait disabled:opacity-60"
-                    >
-                        {isSubmitting ? "Saving..." : "Save"}
-                </button>
+                <Button type="submit" size="sm" disabled={isSubmitting}>
+                    {isSubmitting ? "Saving..." : "Save"}
+                </Button>
 
-                <button
-                    type="button"
+                <Button
+                    variant="secondary"
+                    size="sm"
                     onClick={() => setIsEditing(false)}
-                    className="
-                        cursor-pointer rounded-lg
-                        border border-solid border-[#d1d5db]
-                        bg-white px-3 py-2 text-sm
-                        text-[#17324d] [font-family:inherit]
-                        hover:bg-gray-100
-                        focus-visible:outline-2
-                        focus-visible:outline-[#0f4d3c]
-                        disabled:cursor-wait disabled:opacity-60
-                    "
+                    disabled={isSubmitting}
                 >
                     Cancel
-                </button> 
+                </Button>
             </fieldset>
 
             {error && (
                 <p
                     className="mb-0 mt-2 max-w-xs text-sm text-red-700"
-                    role="alert"></p>
+                    role="alert">
+                        {error}
+                </p>
             )}
         </form>
     );

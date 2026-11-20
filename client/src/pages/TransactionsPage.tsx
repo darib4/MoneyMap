@@ -8,10 +8,9 @@ import type {
     TransactionsResponse
 } from "../types/transaction-types"
 
-const currencyFormatter = new Intl.NumberFormat("en-IE", {
-    style: "currency",
-    currency: "EUR"
-});
+import {
+    euroFormatter as currencyFormatter
+} from "../utils/money";
 
 function TransactionsPage() {
     const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -19,7 +18,7 @@ function TransactionsPage() {
     const [error, setError] = useState("");
     const [refreshKey, setRefreshKey] = useState(0);
     const [typeFilter, setTypeFilter] = useState("all");
-    const {transactionsVersion} = useOutletContext<{transactionsVersion: Number;}>();
+    const {transactionsVersion} = useOutletContext<{transactionsVersion: number;}>();
 
     const navigate = useNavigate();
 

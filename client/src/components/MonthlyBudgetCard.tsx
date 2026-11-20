@@ -7,10 +7,8 @@ import type {
     BudgetsResponse
 } from "../types/budgets-type";
 
-import {
-    formatMoney,
-    formatMonthLabel
-} from "../utils/dashboard";
+import { formatMonthLabel } from "../utils/dashboard";
+import BudgetProgress from "./BudgetProgress";
 
 type MonthlyBudgetCardProps = {
     month: string;
@@ -89,11 +87,6 @@ function MonthlyBudgetCard({month}: MonthlyBudgetCardProps) {
         0
     );
 
-    const remainingCents = totalLimitCents - totalSpentCents;
-    const isOverBudget = remainingCents < 0;
-
-    const percentage = totalLimitCents > 0 ? Math.round((totalSpentCents / totalLimitCents) * 100) : 0;
-
     return(
         <section
             aria-labelledby="dashboard-budget-title"
@@ -149,60 +142,15 @@ function MonthlyBudgetCard({month}: MonthlyBudgetCardProps) {
                 <p className="mb-0 mt-5 text-sm text-[#607286]">No budgets set for this month.</p>
             )}
 
-            {!isLoading && !error && budgets.length > 0 && (
+            {isLoading && !error && budgets.length > 0 && (
                 <div className="mt-5">
-                    <p
-                        className="
-                            m-0 text-[#17324d] tabular-nums
-                            [overflow-wrap:anywhere]"
-                    >
-                        <span className="text-xl font-bold">{formatMoney(totalSpentCents)}</span>
-                        {" of "}
-                        {formatMoney(totalLimitCents)}
-                        {" used "}
-                    </p>
-
-                    <progress
-                        max={totalLimitCents}
-                        value={Math.min(totalSpentCents, totalLimitCents)}
-                        aria-label="Monthly budget usage"
-                        className={`mt-4 block h-3 w-full ${
-                            isOverBudget
-                            ? "accent-red-600"
-                            : "accent-emerald-700"
-                        }`}
+                    <BudgetProgress
+                        limitCents={totalLimitCents}
+                        spentCents={totalSpentCents}
+                        label="Monthly budget usage"
                     />
-
-                    <div 
-                        className="
-                            mt-3 flex flex-wrap justify-between
-                            gap-2 text-sm tabular-nums"
-                    >
-                        <p
-                            className={`m-0 ${
-                                isOverBudget
-                                ? "text-red-700"
-                                : "text-[#607286]"
-                            }`}
-                        >
-                            {isOverBudget
-                                ? "Over budget by "
-                                : "Remaining "}
-                            {formatMoney(Math.abs(remainingCents))}
-                        </p>
-
-                        <p 
-                            className={`m-0 font-semibold ${
-                                isOverBudget
-                                ? "text-red-700"
-                                : "text-[#16734b]"
-                            }`}
-                        >
-                            {percentage}%used
-                        </p>
-                    </div>
                     
-                    <p className="mb-0 mt-3 text-xs text-[#607286]">Accross categories with a budget.</p>
+                    <p className="mb-0 mt-3 text-xs text-[#607286]">Across categories with a budget.</p>
                 </div>
             )}
 

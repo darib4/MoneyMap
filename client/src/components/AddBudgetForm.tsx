@@ -2,6 +2,12 @@ import {useState} from "react";
 import type { SubmitEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import {toast} from "react-toastify";
+import {
+    MONEY_INPUT_ERROR,
+    parseMoneyToCents
+} from "../utils/money";
+
+import Button from "./ui/Button";
 
 type AddBudgetFormProps = {
     month: string;
@@ -32,32 +38,22 @@ function AddBudgetForm({
         const formData = new FormData(form);
 
         const category = String(formData.get("category") ?? "").trim();
-        const amount = String(formData.get("amount") ?? "").trim().replace(",", ".");
+        const amount = String(formData.get("amount") ?? "");
 
         if(category.length < 1 || category.length > 50){
             setError("Category must have 1-50 characters.");
             return;
         }
 
-        if(
-            !/^\d{4}-(0[1-9]|1[0-2])$/.test(month) ||
-            month.startsWith("0000")
-        ) {
+        if (!/^\d{4}-(0[1-9]|1[0-2])$/.test(month) || month.startsWith("0000")) {
             setError("Choose a valid budget month.");
             return;
         }
 
-        if (!/^\d+(\.\d{1,2})?$/.test(amount)) {
-            setError("Enter an amount with up to two decimal places.");
-            return;
-        }
+        const limitCents = parseMoneyToCents(amount);
 
-        const [whole, fraction = ""] = amount.split(".");
-
-        const limitCents = Number(whole) * 100 + Number(fraction.padEnd(2, "0"));
-
-        if(!Number.isSafeInteger(limitCents) || limitCents <=0 || limitCents > 2147483647) {
-            setError("Enter a limit between €0.01 and €21,474,836.47.");
+        if(limitCents === null){
+            setError(MONEY_INPUT_ERROR);
             return;
         }
 
@@ -166,22 +162,9 @@ function AddBudgetForm({
                                     />
                         </label>
 
-                        <button
-                            type="submit"
-                            className="
-                                cursor-pointer rounded-lg border-0
-                                bg-[#0f4d3c] px-5 py-3
-                                text-sm font-semibold text-white
-                                [font-family:inherit]
-                                transition-colors
-                                hover:bg-[#16734b]
-                                focus-visible:outline-2
-                                focus-visible:outline-offset-2
-                                focus-visible:outline-[#0f4d3c]
-                                disabled:cursor-wait disabled:opacity-60"
-                            >
-                                {isSubmitting ? "Saving..." : "Add budget"}
-                            </button>
+                        <Button type="submit" disabled={isSubmitting}>
+                            {isSubmitting ? "Saving..." : "Add budget"}
+                        </Button>
                     </fieldset>
 
                     {error && (
