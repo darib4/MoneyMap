@@ -9,6 +9,7 @@ import {
 } from "../utils/money";
 
 import Button from "./ui/Button";
+import {ApiError, apiRequest} from "../api/client";
 
 type EditBudgetButtonProps = {
     budgetId: number;
@@ -57,41 +58,36 @@ function EditBudgetButton({
         setIsSubmitting(true);
 
         try{
-            const response = await fetch(
-                `/api/budgets/${budgetId}`,
-                {
-                    method: "PATCH",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    credentials: "include",
-                    body: JSON.stringify({
-                        limitCents: updateLimitCents
-                    })
-                }
-            );
-
-            if(response.status === 401){
-                navigate("/login", {replace: true});
-                return;
-            }
-
-            if(response.status === 404) {
-                toast.info("This budget no longer exists.");
-                setIsEditing(false);
-                onSaved();
-                return;
-            }
-
-            if(!response.ok){
-                throw new Error("Could not update budget.");
-            }
+           await apiRequest(`/api/budgets/${budgetId}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    limitCents: updateLimitCents
+                })
+           });
 
             setIsEditing(false);
             toast.success("Budget updated.");
             onSaved();
-        } catch{
+        } catch (error) {
+            if(error instanceof ApiError) {
+                if(error.status === 401) {
+                    navigate("/login", {replace: true});
+                    return;
+                }
+
+                if(error.status === 409) {
+                    toast.info("This budget no longer exists.");
+                    setIsEditing(false);
+                    onSaved();
+                    return;
+                }
+            }
+
             setError("Could not update budget. Please try again.");
+            
         } finally {
             setIsSubmitting(false);
         }
