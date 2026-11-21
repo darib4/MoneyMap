@@ -4,6 +4,7 @@ import {Trash2} from "lucide-react";
 import {toast} from "react-toastify";
 import type { ToastContentProps } from "react-toastify";
 import Button from "./ui/Button";
+import { ApiError, apiRequest } from "../api/client";
 
 type DeleteResourceButtonProps = {
     endpoint: string;
@@ -102,34 +103,31 @@ function DeleteResourceButton({
         deleteLock.current = true;
         setIsDeleting(true);
 
-        try{
-            const response = await fetch(endpoint, {
-                method: "DELETE",
-                credentials: "include"
+        try {
+            await apiRequest(endpoint, {
+                method: "DELETE"
             });
 
-            if(response.status === 401) {
-                toast.info("Please log in again.");
-                navigate("/login", {replace: true});
-                return;
-            }
+            const title = resourceName.charAt(0).toUpperCase() + resourceName.slice(1);
 
-            if(response.status === 404){
-                toast.info(`This ${resourceName} no longer exists.`);
-                onDeleted();
-                return;
-            }
-
-            if(!response.ok) {
-                throw new Error("Delete request failed.");
-            }
-
-            const title = resourceName.charAt(0).toUpperCase() +
-                          resourceName.slice(1);
             toast.success(`${title} deleted.`);
             onDeleted();
-        } catch {
-            toast.error(`Could not delete ${resourceName}. Please try aagain.`);
+        } catch (error) {
+            if(error instanceof ApiError) {
+                if(error.status === 401) {
+                    toast.info("Please log in again.");
+                    navigate("/login", {replace: true});
+                    return;
+                }
+
+                if(error.status === 404){
+                    toast.info(`This ${resourceName} no longer exists.`);
+                    onDeleted();
+                    return;
+                }
+            }
+
+            toast.error(`Could not delete ${resourceName}. Please try again.`);
         } finally {
             deleteLock.current = false;
             setIsDeleting(false);
