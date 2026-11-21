@@ -8,6 +8,7 @@ import {
 } from "../utils/money";
 
 import Button from "./ui/Button";
+import { ApiError, apiRequest } from "../api/client";
 
 type AddBudgetFormProps = {
     month: string;
@@ -60,12 +61,11 @@ function AddBudgetForm({
         setIsSubmitting(true);
 
         try{
-            const response = await fetch("/api/budgets", {
+            await apiRequest("/api/budgets", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 }, 
-                credentials: "include",
                 body: JSON.stringify({
                     category,
                     month,
@@ -73,25 +73,24 @@ function AddBudgetForm({
                 })
             });
 
-            if(response.status === 401){
-                navigate("/login", {replace: true});
-                return;
-            }
-
-            if(response.status === 409) {
-                setError("A budget for this category and month already exists.");
-                return;
-            }
-
-            if(!response.ok) {
-                throw new Error("Could not create budget.");
-            }
-
             form.reset();
             toast.success("Budget crested.");
             onSaved(month);
-        } catch {
+        } catch (error) {
+            if(error instanceof ApiError) {
+                if(error.status === 401){
+                    navigate("/login", {replace: true});
+                    return;
+                }
+
+                if(error.status === 409) {
+                    setError("A budget for this category and month already exists.");
+                    return;
+                } 
+            }
+
             setError("Could not create budget. Please try again.");
+            
         } finally {
             setIsSubmitting(false);
         }

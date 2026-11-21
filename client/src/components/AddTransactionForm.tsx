@@ -8,6 +8,8 @@ import {
 } from "../utils/money";
 
 import Button from "./ui/Button";
+import { ApiError, apiRequest } from "../api/client";
+
 
 const inputStyles =
     "w-full min-w-0 rounded-lg border border-solid border-[#d1d5db] " +
@@ -59,12 +61,12 @@ function AddTransactionForm({onSaved}: AddTransactionFormPage) {
         setIsSubmitting(true);
 
         try{
-            const response = await fetch("/api/transactions", {
+            await apiRequest("/api/transactions", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                credentials: "include",
+                
                 body: JSON.stringify({
                     date,
                     description,
@@ -74,20 +76,15 @@ function AddTransactionForm({onSaved}: AddTransactionFormPage) {
                 })
             });
 
-            if(response.status === 401) {
+            form.reset();
+            toast.success("Transaction added.");
+            onSaved();
+        } catch (error) {
+            if(error instanceof ApiError && error.status === 401) {
                 navigate("/login", {replace: true});
                 return;
             }
 
-            if(!response.ok){
-                throw new Error("Could not save the transaction.");
-            }
-
-            form.reset();
-            toast.success("Transaction added.")
-            onSaved();
-
-        } catch {
             setError("Could not save the transaction. Please try again.");
         } finally {
             setIsSubmitting(false);
